@@ -1,50 +1,48 @@
 package taki.handson;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
-/**
- * Hello world!
- */
 public class Factory implements PooledObjectFactory<Connection> {
-    public int activateCounter;
-    public int destroyCounter;
-    public int makeCounter;
-    public int passivateCounter;
-    public int validateCounter;
+
+    public AtomicInteger activateCounter = new AtomicInteger(0);
+    public AtomicInteger destroyCounter = new AtomicInteger(0);
+    public AtomicInteger makeCounter = new AtomicInteger(0);
+    public AtomicInteger passivateCounter = new AtomicInteger(0);
+    public AtomicInteger validateCounter = new AtomicInteger(0);
+
     public Factory() {
     }
 
     @Override
     public void activateObject(PooledObject<Connection> p) throws Exception {
-        activateCounter++;
-        // throw new UnsupportedOperationException("Unimplemented method 'activateObject'");
+        activateCounter.incrementAndGet();
     }
 
     @Override
     public void destroyObject(PooledObject<Connection> p) throws Exception {
-        destroyCounter++;
-        // throw new UnsupportedOperationException("Unimplemented method 'destroyObject'");
+        destroyCounter.incrementAndGet();
     }
 
     @Override
     public PooledObject<Connection> makeObject() throws Exception {
-        makeCounter++;
+        makeCounter.incrementAndGet();
         return new DefaultPooledObject<Connection>(new Connection());
     }
 
     @Override
     public void passivateObject(PooledObject<Connection> p) throws Exception {
-        // throw new UnsupportedOperationException("Unimplemented method 'passivateObject'");
     }
 
     @Override
     public boolean validateObject(PooledObject<Connection> p) {
-        validateCounter++;
+        validateCounter.incrementAndGet();
         return true;
-        // throw new UnsupportedOperationException("Unimplemented method 'validateObject'");
     }
+
     @Override
     public String toString() {
         return "Factory [activateCounter=" + activateCounter + ", destroyCounter=" + destroyCounter + ", makeCounter="
